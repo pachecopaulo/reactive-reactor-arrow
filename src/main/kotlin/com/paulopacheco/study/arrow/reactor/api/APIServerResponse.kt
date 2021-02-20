@@ -6,19 +6,20 @@ import org.springframework.core.ParameterizedTypeReference
 import org.springframework.http.MediaType
 import org.springframework.web.reactive.function.BodyInserters
 import org.springframework.web.reactive.function.server.ServerResponse
+import org.springframework.web.reactive.function.server.ServerResponse.ok
 import reactor.core.publisher.Mono
 
-inline fun <reified T>okJson(p: () -> MonoK<T>) = ServerResponse.ok()
+inline fun <reified T>okJson(p: () -> MonoK<T>) = ok()
     .contentType(MediaType.APPLICATION_JSON)
     .body(BodyInserters.fromPublisher(p().mono, T::class.java))
 
-inline fun <reified T>okJsonFlux(p: () -> FluxK<T>) = ServerResponse.ok()
+inline fun <reified T>okJsonFlux(p: () -> FluxK<T>) = ok()
     .contentType(MediaType.APPLICATION_JSON)
     .body(BodyInserters.fromPublisher(p().flux, T::class.java))
 
 inline fun <reified T>okJsonList(p: () -> MonoK<List<T>>) : Mono<ServerResponse> {
     val pType = object: ParameterizedTypeReference<List<T>>() {}
-    return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(
+    return ok().contentType(MediaType.APPLICATION_JSON).body(
         BodyInserters.fromPublisher(
             p().mono,
             pType

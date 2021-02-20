@@ -44,10 +44,3 @@ class Application {
         }
     }
 }
-
-/**
- * Starts the service, and waits until shutdown signal is received.
- */
-fun main(args: Array<String>) {
-    Application().startAndAwait()
-}

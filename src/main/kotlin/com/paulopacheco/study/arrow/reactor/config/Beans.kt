@@ -29,6 +29,7 @@ import com.paulopacheco.study.arrow.reactor.config.Properties.DATABASE_NAME
 import com.paulopacheco.study.arrow.reactor.config.Properties.DATABASE_PORT
 import com.paulopacheco.study.arrow.reactor.repository.ItemRepository
 import com.paulopacheco.study.arrow.reactor.service.ItemService
+import org.springframework.http.codec.ServerCodecConfigurer
 
 fun allBeans() = beans {
     routeBeans(this)
@@ -72,7 +73,7 @@ fun repoBeans(ctx: BeanDefinitionDsl) = with (ctx) {
 fun errorHandlerBeans(ctx: BeanDefinitionDsl) = with (ctx) {
     bean<ErrorWebFluxAutoConfiguration>()
     bean<ErrorWebExceptionHandler> {
-        ref<ErrorWebFluxAutoConfiguration>().errorWebExceptionHandler(ref<DefaultErrorAttributes>())
+        ref<ErrorWebFluxAutoConfiguration>().errorWebExceptionHandler(ref<DefaultErrorAttributes>(), ref("ResourceProperties"), ref(), ref(), ref())
     }
 
     bean<DefaultErrorAttributes> {
